@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/tuberlin-blockchain-prototyping/sharing-sbom-system.git
+    repoURL: https://github.com/tuberlin-blockchain-prototyping/sharing-sbom-system-gitops.git
     targetRevision: main
     path: k8s/sharing-sbom-system
   destination:

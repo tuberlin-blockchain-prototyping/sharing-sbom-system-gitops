@@ -4,7 +4,7 @@ metadata:
   name: github-runner
   namespace: github-runner
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: github-runner
@@ -21,9 +21,9 @@ spec:
         args:
           - -c
           - |
-            echo "Fetching registration token..."
+            echo "Fetching organization-level registration token..."
             RESPONSE=$(curl -sX POST -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/repos/$REPO_PATH/actions/runners/registration-token")
+              "https://api.github.com/orgs/$ORG_NAME/actions/runners/registration-token")
             echo "API Response: $RESPONSE"
             TOKEN=$(echo "$RESPONSE" | sed -n 's/.*"token": "\([^"]*\)".*/\1/p')
             echo "Extracted Token: $TOKEN"
@@ -39,8 +39,8 @@ spec:
             secretKeyRef:
               name: github-runner-secret
               key: GITHUB_TOKEN
-        - name: REPO_PATH
-          value: tuberlin-blockchain-prototyping/sharing-sbom-system
+        - name: ORG_NAME
+          value: tuberlin-blockchain-prototyping
         volumeMounts:
         - name: runner-token
           mountPath: /runner-token
@@ -63,7 +63,7 @@ spec:
           - -c
           - |
             TOKEN=$(cat /runner-token/token)
-            ./config.sh --url https://github.com/tuberlin-blockchain-prototyping/sharing-sbom-system \
+            ./config.sh --url https://github.com/tuberlin-blockchain-prototyping \
               --token $TOKEN \
               --name $RUNNER_NAME \
               --labels $RUNNER_LABELS \
