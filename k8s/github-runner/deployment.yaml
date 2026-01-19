@@ -4,7 +4,7 @@ metadata:
   name: github-runner
   namespace: github-runner
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: github-runner
@@ -49,10 +49,11 @@ spec:
                   -H "Accept: application/vnd.github.v3+json" \
                   "https://api.github.com/orgs/${org}/installations")
                 
-                local installation_id=$(echo "$installations_response" | jq -r '.[0].id // empty')
+                local installation_id=$(echo "$installations_response" | jq -r '.installations[0].id // empty')
                 
                 if [ -z "$installation_id" ] || [ "$installation_id" == "null" ]; then
                   echo "ERROR: Could not find installation ID for organization ${org}" >&2
+                  echo "Response: $installations_response" >&2
                   exit 1
                 fi
                 
