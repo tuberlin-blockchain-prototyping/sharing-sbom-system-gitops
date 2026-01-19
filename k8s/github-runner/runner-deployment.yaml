@@ -1,0 +1,22 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: arc-runner
+  namespace: arc-runners
+spec:
+  replicas: 1
+  template:
+    spec:
+      organization: tuberlin-blockchain-prototyping
+      labels:
+        - self-hosted
+        - kind-cluster
+        - blockchain
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "1Gi"
+        limits:
+          cpu: "2"
+          memory: "4Gi"
+      serviceAccountName: github-runner
