@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ipfs-service
-        image: ghcr.io/tuberlin-blockchain-prototyping/sharing-sbom-system/ipfs-service:e4c33f6
+        image: ghcr.io/tuberlin-blockchain-prototyping/sharing-sbom-system/ipfs-service:1cdab7c
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
